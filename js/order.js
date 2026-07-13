@@ -22,7 +22,10 @@ const wilaya = document.getElementById("wilaya").value;
 const commune = document.getElementById("commune").value;
 const address = document.getElementById("address").value.trim();
 
-const shippingType = document.getElementById("shippingType").value;
+const shippingSelect = document.getElementById("shippingType");
+
+const shippingType =
+    shippingSelect.options[shippingSelect.selectedIndex].text;
 
 const quantity = Number(
     document.getElementById("qty").textContent
