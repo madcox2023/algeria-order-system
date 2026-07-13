@@ -19,27 +19,28 @@ form.addEventListener("submit", async (e) => {
 
     try{
 
-        await addDoc(collection(db,"orders"),{
+        await addDoc(collection(db, "orders"), {
 
-            name:document.getElementById("name").value.trim(),
+    name,
+    phone,
+    wilaya,
+    commune,
+    address,
 
-            phone:document.getElementById("phone").value.trim(),
+    shippingType,
+    shippingPrice,
 
-            wilaya:document.getElementById("wilaya").value,
+    quantity,
 
-            commune:document.getElementById("commune").value,
+    productPrice,
 
-            address:document.getElementById("address").value.trim(),
+    total,
 
-            quantity:1,
+    status: "جديد",
 
-            total:0,
+    createdAt: serverTimestamp()
 
-            status:"جديد",
-
-            createdAt:serverTimestamp()
-
-        });
+});
 
         alert("✅ تم إرسال الطلب بنجاح");
 
