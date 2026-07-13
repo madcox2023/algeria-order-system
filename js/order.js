@@ -77,24 +77,27 @@ try {
 
     await addDoc(collection(db, "orders"), {
 
+    customer: {
         name,
         phone,
         wilaya,
         commune,
-        address,
+        address
+    },
 
-        shippingType,
+    order: {
         quantity,
-
         productPrice,
         shippingPrice,
         total,
+        shippingType
+    },
 
-        status: "جديد",
+    status: "جديد",
 
-        createdAt: serverTimestamp()
+    createdAt: serverTimestamp()
 
-    });
+});
 
     alert("✅ تم إرسال الطلب بنجاح");
 
