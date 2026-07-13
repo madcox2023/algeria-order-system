@@ -1,52 +1,108 @@
-const wilayaSelect = document.getElementById("wilaya");
-const communeSelect = document.getElementById("commune");
+// =========================
+// Product Settings
+// =========================
 
-let wilayas = [];
+const PRODUCT_PRICE = 3500;
 
-// تحميل ملف JSON
-fetch("./data/wilayas.json")
-  .then(response => response.json())
-  .then(data => {
+let quantity = 1;
 
-    wilayas = data;
+let shippingPrice = 0;
 
-    wilayaSelect.innerHTML =
-      '<option value="">اختر الولاية</option>';
 
-    data.forEach(wilaya => {
+// =========================
+// Elements
+// =========================
 
-      const option = document.createElement("option");
+const qtyElement = document.getElementById("qty");
 
-      option.value = wilaya.name;
-      option.textContent = wilaya.name;
+const plusBtn = document.getElementById("plus");
 
-      wilayaSelect.appendChild(option);
+const minusBtn = document.getElementById("minus");
 
-    });
+const shippingType = document.getElementById("shippingType");
 
-  });
+const productPriceElement = document.getElementById("productPrice");
 
-// عند تغيير الولاية
-wilayaSelect.addEventListener("change", () => {
+const shippingPriceElement = document.getElementById("shippingPrice");
 
-  communeSelect.innerHTML =
-    '<option value="">اختر البلدية</option>';
+const totalPriceElement = document.getElementById("totalPrice");
 
-  const selected = wilayas.find(
-    w => w.name === wilayaSelect.value
-  );
 
-  if (!selected) return;
+// =========================
+// Initial Prices
+// =========================
 
-  selected.communes.forEach(commune => {
+productPriceElement.textContent = PRODUCT_PRICE + " دج";
 
-    const option = document.createElement("option");
 
-    option.value = commune;
-    option.textContent = commune;
+// =========================
+// Calculate Total
+// =========================
 
-    communeSelect.appendChild(option);
+function updateTotal(){
 
-  });
+    const total =
+        (PRODUCT_PRICE * quantity) + shippingPrice;
+
+    qtyElement.textContent = quantity;
+
+    shippingPriceElement.textContent =
+        shippingPrice + " دج";
+
+    totalPriceElement.textContent =
+        total + " دج";
+
+}
+
+
+// =========================
+// Quantity +
+// =========================
+
+plusBtn.addEventListener("click",()=>{
+
+    quantity++;
+
+    updateTotal();
 
 });
+
+
+// =========================
+// Quantity -
+// =========================
+
+minusBtn.addEventListener("click",()=>{
+
+    if(quantity>1){
+
+        quantity--;
+
+        updateTotal();
+
+    }
+
+});
+
+
+// =========================
+// Shipping
+// =========================
+
+shippingType.addEventListener("change",()=>{
+
+    if(shippingType.value==="home"){
+
+        shippingPrice=600;
+
+    }else{
+
+        shippingPrice=400;
+
+    }
+
+    updateTotal();
+
+});
+
+updateTotal();
