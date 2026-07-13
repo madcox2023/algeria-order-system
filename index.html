@@ -54,7 +54,77 @@ required>
 id="address"
 placeholder="العنوان الكامل"
 required></textarea>
+<div class="shipping-box">
 
+<label>طريقة التوصيل</label>
+
+<select id="shippingType">
+
+<option value="home">إلى المنزل</option>
+
+<option value="desk">إلى المكتب</option>
+
+</select>
+
+</div>
+
+<div class="quantity-box">
+
+<label>الكمية</label>
+
+<div class="qty-controls">
+
+<button type="button" id="minus">-</button>
+
+<span id="qty">1</span>
+
+<button type="button" id="plus">+</button>
+
+</div>
+
+</div>
+
+<div class="price-box">
+
+<p>
+
+سعر المنتج
+
+<span id="productPrice">
+
+3500 دج
+
+</span>
+
+</p>
+
+<p>
+
+سعر الشحن
+
+<span id="shippingPrice">
+
+0 دج
+
+</span>
+
+</p>
+
+<hr>
+
+<p class="total">
+
+الإجمالي
+
+<span id="totalPrice">
+
+3500 دج
+
+</span>
+
+</p>
+
+</div>
 <button type="submit">
 
 تأكيد الطلب
