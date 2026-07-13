@@ -16,7 +16,21 @@ form.addEventListener("submit", async (e) => {
 
     submitBtn.disabled = true;
     submitBtn.textContent = "جارٍ إرسال الطلب...";
+const quantity = Number(document.getElementById("quantity").textContent);
 
+const shippingType = document.getElementById("shipping").value;
+
+const shippingPrice = Number(
+    document.getElementById("shippingPrice").textContent
+);
+
+const productPrice = Number(
+    document.getElementById("productPrice").textContent
+);
+
+const total = Number(
+    document.getElementById("totalPrice").textContent
+);
     try{
 
         await addDoc(collection(db, "orders"), {
