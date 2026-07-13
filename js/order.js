@@ -50,12 +50,10 @@ const total = Number(
     address,
 
     shippingType,
-    shippingPrice,
-
     quantity,
 
     productPrice,
-
+    shippingPrice,
     total,
 
     status: "جديد",
