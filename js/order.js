@@ -16,20 +16,28 @@ form.addEventListener("submit", async (e) => {
 
     submitBtn.disabled = true;
     submitBtn.textContent = "جارٍ إرسال الطلب...";
-const quantity = Number(document.getElementById("quantity").textContent);
+const name = document.getElementById("name").value.trim();
+const phone = document.getElementById("phone").value.trim();
+const wilaya = document.getElementById("wilaya").value;
+const commune = document.getElementById("commune").value;
+const address = document.getElementById("address").value.trim();
 
-const shippingType = document.getElementById("shipping").value;
+const shippingType = document.getElementById("shippingType").value;
 
-const shippingPrice = Number(
-    document.getElementById("shippingPrice").textContent
+const quantity = Number(
+    document.getElementById("qty").textContent
 );
 
 const productPrice = Number(
-    document.getElementById("productPrice").textContent
+    document.getElementById("productPrice").textContent.replace(/\D/g, "")
+);
+
+const shippingPrice = Number(
+    document.getElementById("shippingPrice").textContent.replace(/\D/g, "")
 );
 
 const total = Number(
-    document.getElementById("totalPrice").textContent
+    document.getElementById("totalPrice").textContent.replace(/\D/g, "")
 );
     try{
 
