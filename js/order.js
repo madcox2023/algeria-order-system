@@ -42,6 +42,27 @@ const shippingPrice = Number(
 const total = Number(
     document.getElementById("totalPrice").textContent.replace(/\D/g, "")
 );
+
+  if (!name || !phone || !address) {
+    alert("يرجى ملء جميع الحقول المطلوبة");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "تأكيد الطلب";
+    return;
+}
+
+if (!wilaya) {
+    alert("يرجى اختيار الولاية");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "تأكيد الطلب";
+    return;
+}
+
+if (!commune) {
+    alert("يرجى اختيار البلدية");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "تأكيد الطلب";
+    return;
+}
 try {
 
     await addDoc(collection(db, "orders"), {
