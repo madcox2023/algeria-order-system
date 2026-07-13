@@ -18,6 +18,16 @@ form.addEventListener("submit", async (e) => {
     submitBtn.textContent = "جارٍ إرسال الطلب...";
 const name = document.getElementById("name").value.trim();
 const phone = document.getElementById("phone").value.trim();
+
+  const phoneRegex = /^(05|06|07)\d{8}$/;
+
+if (!phoneRegex.test(phone)) {
+    alert("يرجى إدخال رقم هاتف جزائري صحيح");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "تأكيد الطلب";
+    return;
+}
+  
 const wilaya = document.getElementById("wilaya").value;
 const commune = document.getElementById("commune").value;
 const address = document.getElementById("address").value.trim();
