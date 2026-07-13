@@ -42,55 +42,43 @@ const shippingPrice = Number(
 const total = Number(
     document.getElementById("totalPrice").textContent.replace(/\D/g, "")
 );
-    try{
+try {
 
-        await addDoc(collection(db, "orders"), {
+    await addDoc(collection(db, "orders"), {
 
-    name,
-    phone,
-    wilaya,
-    commune,
-    address,
+        name,
+        phone,
+        wilaya,
+        commune,
+        address,
 
-    shippingType,
-    quantity,
+        shippingType,
+        quantity,
 
-    productPrice,
-    shippingPrice,
-    total,
+        productPrice,
+        shippingPrice,
+        total,
 
-    status: "جديد",
+        status: "جديد",
 
-    createdAt: serverTimestamp()
+        createdAt: serverTimestamp()
 
-});
+    });
 
-        alert("✅ تم إرسال الطلب بنجاح");
+    alert("✅ تم إرسال الطلب بنجاح");
 
-        form.reset();
-document.getElementById("qty").textContent = "1";
+    form.reset();
 
-document.getElementById("shippingPrice").textContent = "0 دج";
-
-document.getElementById("totalPrice").textContent = "3500 دج";
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        alert("حدث خطأ أثناء إرسال الطلب");
-
-    }
-
- try {
-
-   ...
+    document.getElementById("qty").textContent = "1";
+    document.getElementById("shippingPrice").textContent = "0 دج";
+    document.getElementById("totalPrice").textContent = "3500 دج";
 
 }
 catch(error){
 
-   ...
+    console.error(error);
+
+    alert("حدث خطأ أثناء إرسال الطلب");
 
 }
 finally{
