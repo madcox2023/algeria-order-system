@@ -68,7 +68,11 @@ const total = Number(
         alert("✅ تم إرسال الطلب بنجاح");
 
         form.reset();
+document.getElementById("qty").textContent = "1";
 
+document.getElementById("shippingPrice").textContent = "0 دج";
+
+document.getElementById("totalPrice").textContent = "3500 دج";
     }
 
     catch(error){
@@ -79,8 +83,22 @@ const total = Number(
 
     }
 
-    submitBtn.disabled=false;
+ try {
 
-    submitBtn.textContent="تأكيد الطلب";
+   ...
+
+}
+catch(error){
+
+   ...
+
+}
+finally{
+
+    submitBtn.disabled = false;
+
+    submitBtn.textContent = "تأكيد الطلب";
+
+}
 
 });
