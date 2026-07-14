@@ -85,7 +85,21 @@ function loadOrders() {
 `;
 
         });
+document.querySelectorAll(".status-select").forEach(select => {
 
+    select.addEventListener("change", async () => {
+
+        const orderRef = doc(db, "orders", select.dataset.id);
+
+        await updateDoc(orderRef, {
+
+            status: select.value
+
+        });
+
+    });
+
+});
         document.getElementById("totalOrders").textContent = snapshot.size;
         document.getElementById("newOrders").textContent = newOrders;
         document.getElementById("totalSales").textContent = sales + " دج";
