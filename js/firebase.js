@@ -1,16 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
-import {
-    getFirestore
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
-import {
-    getAuth
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
-export const firebaseConfig = {
+const firebaseConfig = {
 
-  apiKey: "AIzaSy...",
+  apiKey: "AIzaSyBwkhEDUQw86vY_i0WXA43gH6BVZ3NzcHw",
 
   authDomain: "algeria-order-system.firebaseapp.com",
 
