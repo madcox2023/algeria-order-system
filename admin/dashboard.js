@@ -1,77 +1,82 @@
 import { db, auth } from "../js/firebase.js";
 
 import {
-
-collection,
-
-query,
-
-orderBy,
-
-onSnapshot
-
+    collection,
+    query,
+    orderBy,
+    onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 import {
-
-signOut
-
+    onAuthStateChanged,
+    signOut
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
-const orders=document.getElementById("orders");
+const orders = document.getElementById("orders");
 
-const q=query(
+// حماية الصفحة
+onAuthStateChanged(auth, (user) => {
 
-collection(db,"orders"),
+    if (!user) {
 
-orderBy("createdAt","desc")
+        window.location.href = "login.html";
+        return;
 
-);
+    }
 
-onSnapshot(q,(snapshot)=>{
-
-orders.innerHTML="";
-
-snapshot.forEach(doc=>{
-
-const order=doc.data();
-
-orders.innerHTML+=`
-
-<div class="order-card">
-
-<h2>${order.name}</h2>
-
-<p>📞 ${order.phone}</p>
-
-<p>📍 ${order.wilaya} - ${order.commune}</p>
-
-<p>🏠 ${order.address}</p>
-
-<p>🚚 ${order.shippingType}</p>
-
-<p>📦 ${order.quantity}</p>
-
-<p>💰 ${order.total} دج</p>
-
-<p>📌 ${order.status}</p>
-
-</div>
-
-`;
+    loadOrders();
 
 });
 
-});
+// تحميل الطلبات
+function loadOrders() {
 
-document
+    const q = query(
+        collection(db, "orders"),
+        orderBy("createdAt", "desc")
+    );
 
-.getElementById("logout")
+    onSnapshot(q, (snapshot) => {
 
-.addEventListener("click",async()=>{
+        orders.innerHTML = "";
 
-await signOut(auth);
+        snapshot.forEach((doc) => {
 
-window.location.href="login.html";
+            const order = doc.data();
+
+            orders.innerHTML += `
+                <div class="order-card">
+
+                    <h2>${order.name}</h2>
+
+                    <p>📞 ${order.phone}</p>
+
+                    <p>📍 ${order.wilaya} - ${order.commune}</p>
+
+                    <p>🏠 ${order.address}</p>
+
+                    <p>🚚 ${order.shippingType}</p>
+
+                    <p>📦 ${order.quantity}</p>
+
+                    <p>💰 ${order.total} دج</p>
+
+                    <p>📌 ${order.status}</p>
+
+                </div>
+            `;
+
+        });
+
+    });
+
+}
+
+// تسجيل الخروج
+document.getElementById("logout").addEventListener("click", async () => {
+
+    await signOut(auth);
+
+    window.location.href = "login.html";
 
 });
