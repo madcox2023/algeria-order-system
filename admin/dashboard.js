@@ -38,43 +38,51 @@ function loadOrders() {
 
     onSnapshot(q, (snapshot) => {
 
-        orders.innerHTML = "";
+        orders.innerHTML += `
+<div class="order-card">
 
-        let sales = 0;
-        let newOrders = 0;
+    <div class="customer">
 
-        snapshot.forEach((doc) => {
+        <h3>${order.name}</h3>
 
-            const order = doc.data();
+        <p>📞 ${order.phone}</p>
 
-            sales += Number(order.total || 0);
+        <p>📍 ${order.wilaya} - ${order.commune}</p>
 
-            if (order.status === "جديد") {
-                newOrders++;
-            }
+        <p>🏠 ${order.address}</p>
 
-            orders.innerHTML += `
-                <div class="order-card">
+        <p>🚚 ${order.shippingType}</p>
 
-                    <div class="customer">
-                        <h3>${order.name}</h3>
-                        <p>📞 ${order.phone}</p>
-                        <p>📍 ${order.wilaya} - ${order.commune}</p>
-                        <p>🏠 ${order.address}</p>
-                        <p>🚚 ${order.shippingType}</p>
-                        <p>📦 ${order.quantity}</p>
-                    </div>
+        <p>📦 ${order.quantity}</p>
 
-                    <div class="price">
-                        ${order.total} دج
-                    </div>
+    </div>
 
-                    <div class="status">
-                        ${order.status}
-                    </div>
+    <div class="price">
 
-                </div>
-            `;
+        ${order.total} دج
+
+    </div>
+
+    <div>
+
+        <select class="status-select" data-id="${doc.id}">
+
+            <option value="جديد" ${order.status==="جديد"?"selected":""}>جديد</option>
+
+            <option value="تم الاتصال" ${order.status==="تم الاتصال"?"selected":""}>تم الاتصال</option>
+
+            <option value="قيد الشحن" ${order.status==="قيد الشحن"?"selected":""}>قيد الشحن</option>
+
+            <option value="تم التوصيل" ${order.status==="تم التوصيل"?"selected":""}>تم التوصيل</option>
+
+            <option value="ملغي" ${order.status==="ملغي"?"selected":""}>ملغي</option>
+
+        </select>
+
+    </div>
+
+</div>
+`;
 
         });
 
