@@ -1,82 +1,145 @@
-onSnapshot(q, (snapshot) => {
+import { db, auth } from "../js/firebase.js";
 
-    orders.innerHTML = "";
+import {
+    collection,
+    query,
+    orderBy,
+    onSnapshot,
+    doc,
+    updateDoc
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
-    let sales = 0;
-    let newOrders = 0;
+import {
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
-    snapshot.forEach((docSnap) => {
+const ordersContainer = document.getElementById("orders");
 
-        const order = docSnap.data();
+onAuthStateChanged(auth, (user) => {
 
-        sales += Number(order.total || 0);
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
 
-        if (order.status === "جديد") {
-            newOrders++;
-        }
+    loadOrders();
 
-        orders.innerHTML += `
-        <div class="order-card">
+});
 
-            <div class="customer">
+function loadOrders() {
 
-                <h3>${order.name}</h3>
+    const q = query(
+        collection(db, "orders"),
+        orderBy("createdAt", "desc")
+    );
 
-                <p>📞 ${order.phone}</p>
+    onSnapshot(q, (snapshot) => {
 
-                <p>📍 ${order.wilaya} - ${order.commune}</p>
+        ordersContainer.innerHTML = "";
 
-                <p>🏠 ${order.address}</p>
+        let totalSales = 0;
+        let newOrders = 0;
 
-                <p>🚚 ${order.shippingType}</p>
+        snapshot.forEach((docSnap) => {
 
-                <p>📦 ${order.quantity}</p>
+            const order = docSnap.data();
 
-            </div>
+            totalSales += Number(order.total || 0);
 
-            <div class="price">
-                ${order.total} دج
-            </div>
+            if (order.status === "جديد") {
+                newOrders++;
+            }
 
-            <div>
+            ordersContainer.innerHTML += `
+                <div class="order-card">
 
-                <select class="status-select" data-id="${docSnap.id}">
+                    <div class="customer">
 
-                    <option value="جديد" ${order.status === "جديد" ? "selected" : ""}>جديد</option>
+                        <h3>${order.name}</h3>
 
-                    <option value="تم الاتصال" ${order.status === "تم الاتصال" ? "selected" : ""}>تم الاتصال</option>
+                        <p>📞 ${order.phone}</p>
 
-                    <option value="قيد الشحن" ${order.status === "قيد الشحن" ? "selected" : ""}>قيد الشحن</option>
+                        <p>📍 ${order.wilaya} - ${order.commune}</p>
 
-                    <option value="تم التوصيل" ${order.status === "تم التوصيل" ? "selected" : ""}>تم التوصيل</option>
+                        <p>🏠 ${order.address}</p>
 
-                    <option value="ملغي" ${order.status === "ملغي" ? "selected" : ""}>ملغي</option>
+                        <p>🚚 ${order.shippingType}</p>
 
-                </select>
+                        <p>📦 ${order.quantity}</p>
 
-            </div>
+                    </div>
 
-        </div>
-        `;
+                    <div class="price">
+                        ${order.total} دج
+                    </div>
 
-    });
+                    <div>
 
-    document.querySelectorAll(".status-select").forEach((select) => {
+                        <select class="status-select" data-id="${docSnap.id}">
 
-        select.addEventListener("change", async () => {
+                            <option value="جديد" ${order.status === "جديد" ? "selected" : ""}>جديد</option>
 
-            const orderRef = doc(db, "orders", select.dataset.id);
+                            <option value="تم الاتصال" ${order.status === "تم الاتصال" ? "selected" : ""}>تم الاتصال</option>
 
-            await updateDoc(orderRef, {
-                status: select.value
+                            <option value="قيد الشحن" ${order.status === "قيد الشحن" ? "selected" : ""}>قيد الشحن</option>
+
+                            <option value="تم التوصيل" ${order.status === "تم التوصيل" ? "selected" : ""}>تم التوصيل</option>
+
+                            <option value="ملغي" ${order.status === "ملغي" ? "selected" : ""}>ملغي</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+            `;
+
+        });
+
+        document.getElementById("totalOrders").textContent = snapshot.size;
+        document.getElementById("newOrders").textContent = newOrders;
+        document.getElementById("totalSales").textContent = totalSales + " دج";
+
+        document.querySelectorAll(".status-select").forEach((select) => {
+
+            select.addEventListener("change", async () => {
+
+                try {
+
+                    await updateDoc(
+                        doc(db, "orders", select.dataset.id),
+                        {
+                            status: select.value
+                        }
+                    );
+
+                } catch (error) {
+
+                    console.error(error);
+                    alert("حدث خطأ أثناء تحديث الحالة.");
+
+                }
+
             });
 
         });
 
     });
 
-    document.getElementById("totalOrders").textContent = snapshot.size;
-    document.getElementById("newOrders").textContent = newOrders;
-    document.getElementById("totalSales").textContent = sales + " دج";
+}
+
+document.getElementById("logout").addEventListener("click", async () => {
+
+    try {
+
+        await signOut(auth);
+
+    } catch (error) {
+
+        console.error(error);
+        alert("تعذر تسجيل الخروج.");
+
+    }
 
 });
