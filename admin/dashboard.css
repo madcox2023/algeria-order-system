@@ -194,5 +194,43 @@ cursor:pointer;
 min-width:140px;
 
 }
-  
+.actions{
+
+display:flex;
+flex-direction:column;
+gap:10px;
+align-items:center;
+
+}
+
+.status-select{
+
+padding:8px 12px;
+border-radius:8px;
+border:1px solid #ddd;
+font-size:15px;
+cursor:pointer;
+
+}
+
+.call-btn,
+.copy-btn{
+
+background:#ff6b00;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:8px;
+cursor:pointer;
+font-size:14px;
+width:120px;
+
+}
+
+.call-btn:hover,
+.copy-btn:hover{
+
+background:#e55f00;
+
+}  
 }
