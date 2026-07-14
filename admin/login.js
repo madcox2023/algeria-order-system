@@ -30,7 +30,10 @@ form.addEventListener("submit", async (e) => {
 
     catch(error){
 
-        alert("البريد الإلكتروني أو كلمة المرور غير صحيحة");
+      console.log(error.code);
+console.log(error.message);
+
+alert(error.code);
 
         console.error(error);
 
