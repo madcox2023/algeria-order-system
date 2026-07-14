@@ -1,116 +1,82 @@
-import { db, auth } from "../js/firebase.js";
+onSnapshot(q, (snapshot) => {
 
-import {
-    collection,
-    query,
-    orderBy,
-    onSnapshot,
-    doc,
-    updateDoc
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+    orders.innerHTML = "";
 
-import {
-    onAuthStateChanged,
-    signOut
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+    let sales = 0;
+    let newOrders = 0;
 
-const orders = document.getElementById("orders");
+    snapshot.forEach((docSnap) => {
 
-// حماية الصفحة
-onAuthStateChanged(auth, (user) => {
+        const order = docSnap.data();
 
-    if (!user) {
-        window.location.href = "login.html";
-        return;
-    }
+        sales += Number(order.total || 0);
 
-    loadOrders();
-
-});
-
-// تحميل الطلبات
-function loadOrders() {
-
-    const q = query(
-        collection(db, "orders"),
-        orderBy("createdAt", "desc")
-    );
-
-    onSnapshot(q, (snapshot) => {
+        if (order.status === "جديد") {
+            newOrders++;
+        }
 
         orders.innerHTML += `
-<div class="order-card">
+        <div class="order-card">
 
-    <div class="customer">
+            <div class="customer">
 
-        <h3>${order.name}</h3>
+                <h3>${order.name}</h3>
 
-        <p>📞 ${order.phone}</p>
+                <p>📞 ${order.phone}</p>
 
-        <p>📍 ${order.wilaya} - ${order.commune}</p>
+                <p>📍 ${order.wilaya} - ${order.commune}</p>
 
-        <p>🏠 ${order.address}</p>
+                <p>🏠 ${order.address}</p>
 
-        <p>🚚 ${order.shippingType}</p>
+                <p>🚚 ${order.shippingType}</p>
 
-        <p>📦 ${order.quantity}</p>
+                <p>📦 ${order.quantity}</p>
 
-    </div>
+            </div>
 
-    <div class="price">
+            <div class="price">
+                ${order.total} دج
+            </div>
 
-        ${order.total} دج
+            <div>
 
-    </div>
+                <select class="status-select" data-id="${docSnap.id}">
 
-    <div>
+                    <option value="جديد" ${order.status === "جديد" ? "selected" : ""}>جديد</option>
 
-        <select class="status-select" data-id="${doc.id}">
+                    <option value="تم الاتصال" ${order.status === "تم الاتصال" ? "selected" : ""}>تم الاتصال</option>
 
-            <option value="جديد" ${order.status==="جديد"?"selected":""}>جديد</option>
+                    <option value="قيد الشحن" ${order.status === "قيد الشحن" ? "selected" : ""}>قيد الشحن</option>
 
-            <option value="تم الاتصال" ${order.status==="تم الاتصال"?"selected":""}>تم الاتصال</option>
+                    <option value="تم التوصيل" ${order.status === "تم التوصيل" ? "selected" : ""}>تم التوصيل</option>
 
-            <option value="قيد الشحن" ${order.status==="قيد الشحن"?"selected":""}>قيد الشحن</option>
+                    <option value="ملغي" ${order.status === "ملغي" ? "selected" : ""}>ملغي</option>
 
-            <option value="تم التوصيل" ${order.status==="تم التوصيل"?"selected":""}>تم التوصيل</option>
+                </select>
 
-            <option value="ملغي" ${order.status==="ملغي"?"selected":""}>ملغي</option>
+            </div>
 
-        </select>
+        </div>
+        `;
 
-    </div>
+    });
 
-</div>
-`;
+    document.querySelectorAll(".status-select").forEach((select) => {
 
-        });
-document.querySelectorAll(".status-select").forEach(select => {
+        select.addEventListener("change", async () => {
 
-    select.addEventListener("change", async () => {
+            const orderRef = doc(db, "orders", select.dataset.id);
 
-        const orderRef = doc(db, "orders", select.dataset.id);
-
-        await updateDoc(orderRef, {
-
-            status: select.value
+            await updateDoc(orderRef, {
+                status: select.value
+            });
 
         });
 
     });
 
-});
-        document.getElementById("totalOrders").textContent = snapshot.size;
-        document.getElementById("newOrders").textContent = newOrders;
-        document.getElementById("totalSales").textContent = sales + " دج";
-
-    });
-
-}
-
-// تسجيل الخروج
-document.getElementById("logout").addEventListener("click", async () => {
-
-    await signOut(auth);
+    document.getElementById("totalOrders").textContent = snapshot.size;
+    document.getElementById("newOrders").textContent = newOrders;
+    document.getElementById("totalSales").textContent = sales + " دج";
 
 });
