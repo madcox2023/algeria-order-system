@@ -3,6 +3,74 @@
 
 <head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>لوحة إدارة الطلبات</title>
+
+<link rel="stylesheet" href="dashboard.css">
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+<h1>لوحة إدارة الطلبات</h1>
+
+<button id="logout">
+تسجيل الخروج
+</button>
+
+</header>
+
+
+<section class="stats">
+
+<div class="stat-card">
+
+<h3>إجمالي الطلبات</h3>
+
+<span id="totalOrders">0</span>
+
+</div>
+
+<div class="stat-card">
+
+<h3>طلبات جديدة</h3>
+
+<span id="newOrders">0</span>
+
+</div>
+
+<div class="stat-card">
+
+<h3>إجمالي المبيعات</h3>
+
+<span id="totalSales">0 دج</span>
+
+</div>
+
+</section>
+
+
+<section class="orders-section">
+
+<h2>آخر الطلبات</h2>
+
+<div id="orders"></div>
+
+</section>
+
+<script type="module" src="dashboard.js"></script>
+
+</body>
+
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
