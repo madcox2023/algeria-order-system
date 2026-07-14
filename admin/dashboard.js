@@ -36,64 +36,55 @@ function loadOrders() {
 
     onSnapshot(q, (snapshot) => {
 
-        ordersContainer.innerHTML = "";
+        const order = doc.data();
 
-        let totalSales = 0;
-        let newOrders = 0;
+orders.innerHTML += `
+<div class="order-card">
 
-        snapshot.forEach((docSnap) => {
+    <div class="customer">
 
-            const order = docSnap.data();
+        <h3>${order.name}</h3>
 
-            totalSales += Number(order.total || 0);
+        <p>📞 ${order.phone}</p>
 
-            if (order.status === "جديد") {
-                newOrders++;
-            }
+        <p>📍 ${order.wilaya} - ${order.commune}</p>
 
-            ordersContainer.innerHTML += `
-                <div class="order-card">
+        <p>🏠 ${order.address}</p>
 
-                    <div class="customer">
+        <p>🚚 ${order.shippingType}</p>
 
-                        <h3>${order.name}</h3>
+        <p>📦 ${order.quantity} قطعة</p>
 
-                        <p>📞 ${order.phone}</p>
+    </div>
 
-                        <p>📍 ${order.wilaya} - ${order.commune}</p>
+    <div class="price">
 
-                        <p>🏠 ${order.address}</p>
+        ${order.total} دج
 
-                        <p>🚚 ${order.shippingType}</p>
+    </div>
 
-                        <p>📦 ${order.quantity}</p>
+    <div class="actions">
 
-                    </div>
+        <select class="status-select" data-id="${doc.id}">
+            <option value="جديد" ${order.status=="جديد"?"selected":""}>جديد</option>
+            <option value="تم الاتصال" ${order.status=="تم الاتصال"?"selected":""}>تم الاتصال</option>
+            <option value="قيد الشحن" ${order.status=="قيد الشحن"?"selected":""}>قيد الشحن</option>
+            <option value="تم التوصيل" ${order.status=="تم التوصيل"?"selected":""}>تم التوصيل</option>
+            <option value="ملغي" ${order.status=="ملغي"?"selected":""}>ملغي</option>
+        </select>
 
-                    <div class="price">
-                        ${order.total} دج
-                    </div>
+        <button class="call-btn">
+            📞 اتصال
+        </button>
 
-                    <div>
+        <button class="copy-btn" data-phone="${order.phone}">
+            📋 نسخ الرقم
+        </button>
 
-                        <select class="status-select" data-id="${docSnap.id}">
+    </div>
 
-                            <option value="جديد" ${order.status === "جديد" ? "selected" : ""}>جديد</option>
-
-                            <option value="تم الاتصال" ${order.status === "تم الاتصال" ? "selected" : ""}>تم الاتصال</option>
-
-                            <option value="قيد الشحن" ${order.status === "قيد الشحن" ? "selected" : ""}>قيد الشحن</option>
-
-                            <option value="تم التوصيل" ${order.status === "تم التوصيل" ? "selected" : ""}>تم التوصيل</option>
-
-                            <option value="ملغي" ${order.status === "ملغي" ? "selected" : ""}>ملغي</option>
-
-                        </select>
-
-                    </div>
-
-                </div>
-            `;
+</div>
+`;
 
         });
 
