@@ -100,6 +100,29 @@ ${order.status}
 
 }
 
+document.getElementById("totalOrders").textContent =
+snapshot.size;
+
+let sales = 0;
+let news = 0;
+
+snapshot.forEach(doc=>{
+
+const order = doc.data();
+
+sales += Number(order.total);
+
+if(order.status==="جديد")
+news++;
+
+});
+
+document.getElementById("newOrders").textContent =
+news;
+
+document.getElementById("totalSales").textContent =
+sales + " دج";
+
 // تسجيل الخروج
 document.getElementById("logout").addEventListener("click", async () => {
 
