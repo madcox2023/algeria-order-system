@@ -177,4 +177,22 @@ color:#ff6b00;
 
 font-weight:bold;
 
+.status-select{
+
+padding:8px 12px;
+
+border:1px solid #ddd;
+
+border-radius:8px;
+
+background:#fff;
+
+font-size:14px;
+
+cursor:pointer;
+
+min-width:140px;
+
+}
+  
 }
