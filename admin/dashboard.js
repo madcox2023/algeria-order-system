@@ -44,7 +44,35 @@ function loadOrders() {
 
             const order = doc.data();
 
-            orders.innerHTML += `
+           orders.innerHTML += `
+
+<div class="order-card">
+
+<div class="customer">
+
+<h3>${order.name}</h3>
+
+<p>📞 ${order.phone}</p>
+
+<p>${order.wilaya} - ${order.commune}</p>
+
+</div>
+
+<div class="price">
+
+${order.total} دج
+
+</div>
+
+<div class="status">
+
+${order.status}
+
+</div>
+
+</div>
+
+`;
                 <div class="order-card">
 
                     <h2>${order.name}</h2>
