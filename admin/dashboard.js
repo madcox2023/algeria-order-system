@@ -1,49 +1,77 @@
-import { db } from "../js/firebase.js";
+import { db, auth } from "../js/firebase.js";
 
 import {
-    collection,
-    query,
-    orderBy,
-    onSnapshot
+
+collection,
+
+query,
+
+orderBy,
+
+onSnapshot
+
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
-const ordersContainer = document.getElementById("orders");
+import {
 
-const q = query(
-    collection(db, "orders"),
-    orderBy("createdAt", "desc")
+signOut
+
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+const orders=document.getElementById("orders");
+
+const q=query(
+
+collection(db,"orders"),
+
+orderBy("createdAt","desc")
+
 );
 
-onSnapshot(q, (snapshot) => {
+onSnapshot(q,(snapshot)=>{
 
-    ordersContainer.innerHTML = "";
+orders.innerHTML="";
 
-    snapshot.forEach((doc) => {
+snapshot.forEach(doc=>{
 
-        const order = doc.data();
+const order=doc.data();
 
-        ordersContainer.innerHTML += `
+orders.innerHTML+=`
 
 <div class="order-card">
 
-<h3>${order.name}</h3>
+<h2>${order.name}</h2>
 
 <p>📞 ${order.phone}</p>
 
 <p>📍 ${order.wilaya} - ${order.commune}</p>
 
+<p>🏠 ${order.address}</p>
+
 <p>🚚 ${order.shippingType}</p>
 
-<p>📦 الكمية : ${order.quantity}</p>
+<p>📦 ${order.quantity}</p>
 
 <p>💰 ${order.total} دج</p>
 
-<p>الحالة : ${order.status}</p>
+<p>📌 ${order.status}</p>
 
 </div>
 
 `;
 
-    });
+});
+
+});
+
+document
+
+.getElementById("logout")
+
+.addEventListener("click",async()=>{
+
+await signOut(auth);
+
+window.location.href="login.html";
 
 });
